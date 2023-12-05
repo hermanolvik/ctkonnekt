@@ -1,0 +1,9 @@
+Flask
+Flask-Login
+Flask-SQLAlchemy
+psycopg2
+Flask-Bcrypt
+email-validator
+Flask-WTF
+wtforms
+Jinja2

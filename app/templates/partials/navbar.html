@@ -1,0 +1,44 @@
+<div class="sticky-navbar">
+    <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
+        <a class="navbar-brand" href="{{ url_for('main.home') }}">
+            <img src="{{ url_for('static', filename='ctk_black.png') }}" alt="Logo" />
+        </a>
+
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+
+            {% if current_user.is_authenticated %}
+
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item left-padding">
+                    <a class="nav-link {{ 'active' if request.endpoint == 'main.view_all' }}" href="{{ url_for('main.view_all') }}">
+                        Dashboard
+                    </a>
+                </li>
+            </ul>
+
+            {% else %}
+
+            <ul class="navbar-nav ms-auto" style="margin-right: 20px;">
+                <li class="nav-item left-padding">
+                    <a class="nav-link" href="{{ url_for('main.login') }}">Login</a>
+                </li>
+                <li class="nav-item left-padding">
+                    <a class="nav-link" href="{{ url_for('main.register') }}">Register</a>
+                </li>
+            </ul>
+
+            {% endif %}
+
+        </div>
+    </nav>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check for backdrop-filter support
+        if (!('backdropFilter' in document.body.style)) {
+        // Add a fallback class to the navbar if backdrop-filter is not supported
+        document.querySelector('.navbar').classList.add('fallback-bg');
+        }
+    });
+</script>

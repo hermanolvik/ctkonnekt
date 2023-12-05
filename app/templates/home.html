@@ -1,0 +1,24 @@
+<!-- home.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container pt-5 d-flex justify-content-center align-items-center">
+    <div class="hello-animation-container" style="width: 50%; height: auto; filter: grayscale(1); margin-top: -100px">
+        <div id="lottie-hello-animation"></div>  <!-- This div will contain the Lottie animation -->
+    </div>
+</div>
+
+<a class="d-flex justify-content-center align-items-center px-5 pb-3" href="{{ url_for('main.register') }}" style="text-decoration: none;">
+    <button type="button" class="btn btn-outline-primary btn-lg">
+        Register
+    </button>
+</a>
+
+<a class="d-flex justify-content-center align-items-center px-5 pb-3" href="{{ url_for('main.login') }}" style="text-decoration: none;">
+    <button type="button" class="btn btn-outline-primary btn-lg">
+        Login
+    </button>
+</a>
+
+{% endblock %}

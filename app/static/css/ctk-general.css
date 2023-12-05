@@ -1,0 +1,154 @@
+:root {
+    --primary-color: #eef0f3;
+    --secondary-color: white;
+    --extra-color: white;
+    --text-color-dark: #222;
+    --text-color-bright: white;
+}
+
+.alert {
+    pointer-events: none;
+    animation: fadeout 2s forwards;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.custom-defined-element {
+    background-color: var(--primary-color);
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+.custom-defined-element-2 {
+    background-color: var(--extra-color);
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+.custom-hoverable-element {
+    transition: all 0.4s ease;
+}
+
+.custom-hoverable-element:hover {
+    background-color: white;
+}
+
+.navbar-brand img {
+    height: 50px;
+    width: auto;
+    margin-left: 20px;
+}
+
+.bg-custom {
+    background: var(--primary-color);
+}
+
+.navbar .navbar-nav .nav-link {
+    color: var(--text-color-dark) !important;
+    position: relative;
+}
+
+.navbar .navbar-nav .nav-link::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: white;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.navbar .navbar-nav .nav-link:hover::after {
+    opacity: 0.3;
+}
+
+.navbar .navbar-brand {
+    color: white !important;
+    position: relative;
+}
+
+.navbar .navbar-brand::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: white;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.navbar .navbar-brand:hover::after {
+    opacity: 0.3;
+    filter: brightness(1.2);
+}
+
+.nav-link.active {
+    position: relative;
+}
+
+.nav-link.active::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1.5px;
+    background: linear-gradient(to right, transparent, var(--text-color-dark), transparent);
+    transform: translateY(15px);
+}
+
+/* Makes the navbar stick to the top */
+.sticky-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* High z-index to ensure it sits on top of other content */
+}
+
+/* Adds a frosted glass effect */
+.sticky-navbar .navbar {
+    backdrop-filter: blur(20px); /* Adjust the blur as needed */
+    background-color: rgba(255, 255, 255, 0.8); /* You can adjust opacity as needed */
+}
+
+fallback-bg {
+    background-color: rgba(255, 255, 255, 0.98) !important; /* You can adjust opacity as needed */
+}
+
+.left-padding {
+    margin-left: 10px;
+}
+
+.post {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.post:hover {
+    background-color: var(--primary-color);
+    cursor: pointer;
+}
+
+.comment {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.comment:hover {
+    background-color: var(--primary-color);
+    cursor: pointer;
+}

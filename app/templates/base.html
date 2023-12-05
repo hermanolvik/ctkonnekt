@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Default Bootstrap CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+  <!-- Bootstrap JS Bundle with Popper -->
+  <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+
+  <!-- CTK general CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/ctk-general.css') }}">
+
+  <!-- Page CSS -->
+  {% if template %}
+  <link rel="stylesheet" href="{{ url_for('static', filename=template + '/' + template + '.css') }}">
+  {% endif %}
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ctkonnekt</title>
+
+</head>
+
+<body>
+
+  {% include 'partials/navbar.html' %}
+
+  <div class="container pt-5 d-flex justify-content-center align-items-center">
+
+    <div class="col mb-5">
+
+      <!-- Display flash messages and form errors -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        {{ message }}
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+
+      <!-- Page Content -->
+      {% block content %}{% endblock %}
+
+    </div>
+
+  </div>
+
+  <!-- Page script -->
+  {% if template %}
+  <script src="{{ url_for('static', filename=template + '/' + template + '.js') }}"></script>
+  {% endif %}
+
+  <!-- Lottie animations script -->
+  <script src="{{ url_for('static', filename='js/lottie.min.js') }}"></script>
+
+</body>
+
+</html>
