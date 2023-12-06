@@ -28,10 +28,14 @@
 <div class="post-list">
     {% for post in posts %}
     <div class="post" data-post-id="{{ post.id }}">
+        <h6>{{ post.author.first_name }} {{ post.author.family_name }}</h6>
         <h3>{{ post.title }}</h3>
         <p>{{ post.content }}</p>
-        <small>Posted on: {{ post.date_posted.strftime('%Y-%m-%d %H:%M') }}</small>
-        <small>Likes: {{ post.likers|length }}</small>
+        <div class="like-btn {{ 'active' if post.id in liked_post_ids else '' }}">
+            <i class="fa-solid fa-heart fa-lg"></i>
+        </div>
+        <small class="like-count">{{ post.likers|length }}</small><br>
+        <small>{{ post.date_posted.strftime('%Y-%m-%d %H:%M') }}</small>
         <hr>
     </div>
     {% else %}

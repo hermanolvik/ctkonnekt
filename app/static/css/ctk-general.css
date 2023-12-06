@@ -1,9 +1,11 @@
 :root {
     --primary-color: #eef0f3;
-    --secondary-color: white;
-    --extra-color: white;
+    --secondary-color: #646464;
+    --extra-color: #f8f8f8;
     --text-color-dark: #222;
     --text-color-bright: white;
+    --like-heart-color: #e74c3c;
+    --alert-red-color: #da4637;
 }
 
 .alert {
@@ -14,28 +16,6 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
-}
-
-.custom-defined-element {
-    background-color: var(--primary-color);
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 10px;
-}
-
-.custom-defined-element-2 {
-    background-color: var(--extra-color);
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 10px;
-}
-
-.custom-hoverable-element {
-    transition: all 0.4s ease;
-}
-
-.custom-hoverable-element:hover {
-    background-color: white;
 }
 
 .navbar-brand img {
@@ -123,10 +103,6 @@ fallback-bg {
     background-color: rgba(255, 255, 255, 0.98) !important; /* You can adjust opacity as needed */
 }
 
-.left-padding {
-    margin-left: 10px;
-}
-
 .post {
     background-color: white;
     border-radius: 10px;
@@ -140,6 +116,14 @@ fallback-bg {
     cursor: pointer;
 }
 
+.post-view {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .comment {
     background-color: white;
     border-radius: 10px;
@@ -151,4 +135,41 @@ fallback-bg {
 .comment:hover {
     background-color: var(--primary-color);
     cursor: pointer;
+}
+
+.like-btn {
+    cursor: pointer;
+    color: var(--secondary-color);
+}
+
+.like-btn.active {
+    color: var(--like-heart-color)
+}
+
+.delete-btn {
+    padding: 5px 10px;
+    margin: 5px;
+    font-size: 16px;
+}
+
+.delete-btn .fas {
+    color: var(--secondary-color);
+}
+
+.delete-btn:hover {
+    background-color: var(--extra-color)
+}
+
+.edit-btn {
+    padding: 5px 10px;
+    margin: 5px;
+    font-size: 16px;
+}
+
+.edit-btn .fas {
+    color: var(--secondary-color);
+}
+
+.edit-btn:hover {
+    background-color: var(--extra-color);
 }
