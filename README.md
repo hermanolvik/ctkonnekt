@@ -1,7 +1,7 @@
 # ctkonnekt
 
 ## Overview
-ctkonnekt is a dynamic web application developed using Python Flask. It's designed to efficiently handle both front-end rendering and back-end database interactions. Despite its high coupling and lower separation of concerns, this design was essential for meeting the rapid development deadline of one week.
+ctkonnekt is a dynamic web application developed using Python Flask.
 
 ## Technology Stack
 - **Python Flask:** Main framework for handling backend operations and routing.
