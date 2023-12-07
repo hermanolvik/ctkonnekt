@@ -41,7 +41,8 @@ To get ctkonnekt up and running, follow these steps:
 
 
 # Video
-## A screen recording demonstrating some functionalities of the application
+
+A screen recording demonstrating some functionalities of the application
 
 link: https://drive.google.com/file/d/1O6rLfLhk0FFAe6QmbgNzaMlK85vr_nsr/view?usp=sharing
 
