@@ -95,12 +95,12 @@
 
 /* Adds a frosted glass effect */
 .sticky-navbar .navbar {
-    backdrop-filter: blur(20px); /* Adjust the blur as needed */
-    background-color: rgba(255, 255, 255, 0.8); /* You can adjust opacity as needed */
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 fallback-bg {
-    background-color: rgba(255, 255, 255, 0.98) !important; /* You can adjust opacity as needed */
+    background-color: rgba(255, 255, 255, 0.98) !important;
 }
 
 .post {

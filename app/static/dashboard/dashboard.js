@@ -30,11 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
                 .then(response => response.json())
                 .then(data => {
-                    if (!isActive) {
-                        btn.parentElement.querySelector('.like-count').innerHTML++;
-                    } else {
-                        btn.parentElement.querySelector('.like-count').innerHTML--;
-                    }
+                    btn.parentElement.querySelector('.like-count').innerHTML = data.likes_count;
                 })
                 .catch(error => {
                     console.error('Error:', error);

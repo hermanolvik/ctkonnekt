@@ -1,11 +1,9 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, jsonify
-from sqlalchemy import func
+from flask import Blueprint, render_template, redirect, url_for, flash, jsonify, request
+from flask_login import login_user, login_required, logout_user, current_user
 
+from app import db, bcrypt
 from app.forms import LoginForm, RegisterForm, PostForm, CommentForm, EditPostForm
 from app.models import User, Post, Comment, likes
-from app import db, bcrypt
-from flask_login import login_user, login_required, logout_user, current_user
-from flask import request
 
 main = Blueprint('main', __name__)
 
@@ -101,7 +99,12 @@ def view_post(post_id):
     comment_form = CommentForm()
     edit_post_form = EditPostForm()
 
-    return render_template('view_post.html', template='view_post', post=post, comments=comments, comment_form=comment_form, edit_post_form=edit_post_form)
+    # Check which posts the current user has liked
+    liked_post_ids = set()
+    if current_user.is_authenticated:
+        liked_post_ids = {post.id for post in current_user.liked_posts}
+
+    return render_template('view_post.html', template='view_post', post=post, comments=comments, comment_form=comment_form, edit_post_form=edit_post_form, liked_post_ids=liked_post_ids)
 
 
 @main.route('/like_post/<int:post_id>', methods=['POST'])
