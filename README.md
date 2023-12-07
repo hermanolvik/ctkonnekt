@@ -15,6 +15,10 @@ ctkonnekt is a simple forum-style web application developed using Python Flask. 
 ## The week-long project time frame
 given the one-week deadline, the development of ctkonnekt was guided by the need for speed and reliability. Leveraging my experience from previous hobby projects, I selected a familiar technology stack that guaranteed a good balance of efficiency and quality. While I am exploring more advanced technologies like React for future projects, the tight deadline had me choose a more familiar approach. Throughout the development, I utilized various online resources, including Google and ChatGPT, for development support and problem-solving.
 
+### Actual time spent on the case
+
+backend development: 10 hrs, frontend development: 8 hrs, documentation and everything else: 2 hrs
+
 ## Running the application
 To get ctkonnekt up and running, follow these steps:
 
