@@ -2,42 +2,66 @@
 
 {% block content %}
 
-<h1>Dashboard</h1>
+<h5 class="d-flex justify-content-center pb-3">What's on your mind, {{current_user.first_name}}?</h5>
 
-<!-- Form for creating a new post -->
-<form action="{{ url_for('main.view_all') }}" method="post">
-    {{ form.hidden_tag() }}
-    <div class="mb-3">
-        {{ form.title.label(class="form-label") }}
-        {{ form.title(class="form-control") }}
+<!-- Create post button -->
+<div class="d-flex justify-content-center align-items-center">
+    <!-- Button to trigger modal -->
+    <button class="btn btn-outline-primary btn-lg w-75" type="button" data-bs-toggle="modal" data-bs-target="#createPostModal">
+        New Post
+        <i class="fa-solid fa-pen-to-square"></i>
+    </button>
+</div>
+
+<!-- Create post modal -->
+<div class="modal fade" id="createPostModal" tabindex="-1" aria-labelledby="createPostModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createPostModalLabel">Create Post</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Create Post Form -->
+                <form action="{{ url_for('main.add_post') }}" method="post">
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3">
+                        {{ form.title.label(class="form-label") }}
+                        {{ form.title(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.content.label(class="form-label") }}
+                        {{ form.content(class="form-control") }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Post</button>
+                </form>
+            </div>
+        </div>
     </div>
-    <div class="mb-3">
-        {{ form.content.label(class="form-label") }}
-        {{ form.content(class="form-control") }}
-    </div>
-    <button type="submit" class="btn btn-primary">Create Post</button>
-</form>
+</div>
 
 <hr>
 
+<!-- All posts section -->
+
+<h5>Top 10 Posts</h5>
 <div>
     <a href="{{ url_for('main.view_all', sort='date') }}">Sort by Date</a> |
     <a href="{{ url_for('main.view_all', sort='likes') }}">Sort by Likes</a>
 </div>
 
+<hr>
+
 <div class="post-list">
     {% for post in posts %}
     <div class="post" data-post-id="{{ post.id }}">
-        <h6>{{ post.author.first_name }} {{ post.author.family_name }}</h6>
-        <h3>{{ post.title }}</h3>
-        <p>{{ post.content }}</p>
-        <div class="like-btn {{ 'active' if post.id in liked_post_ids else '' }}">
-            <i class="fa-solid fa-heart fa-lg"></i>
-        </div>
-        <small class="like-count">{{ post.likers|length }}</small><br>
+        <!-- Post standard layout -->
+        {% include 'partials/post_content_layout.html' %}
+        <br>
         <small>{{ post.date_posted.strftime('%Y-%m-%d %H:%M') }}</small>
-        <hr>
     </div>
+    <hr>
+
     {% else %}
     <p>No posts found.</p>
     {% endfor %}

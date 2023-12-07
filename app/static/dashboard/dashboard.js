@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+
     // Make posts clickable and link to view_post
     var posts = document.querySelectorAll('.post');
     posts.forEach(function(post) {
@@ -9,13 +10,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Add like button functionality
+
+    // 'Like' button functionality
     var likeButtons = document.querySelectorAll('.like-btn');
     likeButtons.forEach(function(btn) {
         btn.addEventListener('click', function(e) {
             e.stopPropagation();  // Prevent the event from bubbling up
 
-            var postId = btn.parentElement.getAttribute('data-post-id');
+            var postId = btn.parentElement.parentElement.getAttribute('data-post-id');
             var isActive = btn.classList.contains('active');
 
             // Toggle the active class
@@ -39,5 +41,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
         });
     });
+
 
 });

@@ -122,6 +122,7 @@ fallback-bg {
     padding: 20px;
     margin: 10px 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
 .comment {
@@ -130,6 +131,23 @@ fallback-bg {
     padding: 20px;
     margin: 10px 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.comment-tools {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.post-tools {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 .comment:hover {
@@ -146,7 +164,13 @@ fallback-bg {
     color: var(--like-heart-color)
 }
 
-.delete-btn {
+.c-small-btn {
+    padding: 5px 10px;
+    margin: 5px;
+    font-size: 16px;
+}
+
+.p-small-btn{
     padding: 5px 10px;
     margin: 5px;
     font-size: 16px;
@@ -158,12 +182,6 @@ fallback-bg {
 
 .delete-btn:hover {
     background-color: var(--extra-color)
-}
-
-.edit-btn {
-    padding: 5px 10px;
-    margin: 5px;
-    font-size: 16px;
 }
 
 .edit-btn .fas {

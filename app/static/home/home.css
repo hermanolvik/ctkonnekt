@@ -1,0 +1,19 @@
+.animation-container {
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    .hello-animation-container {
+        margin-top: -10px; /* Adjust the value as needed */
+    }
+}
+
+@media (max-width: 576px) {
+    .hello-animation-container {
+        margin-top: 0; /* Reset the top margin */
+    }
+}
+
+#lottie-hello-animation {
+    height: 300px;
+}

@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, jsonify
 from sqlalchemy import func
 
-from app.forms import LoginForm, RegisterForm, PostForm, CommentForm
-from app.models import User, Post, Comment
+from app.forms import LoginForm, RegisterForm, PostForm, CommentForm, EditPostForm
+from app.models import User, Post, Comment, likes
 from app import db, bcrypt
 from flask_login import login_user, login_required, logout_user, current_user
 from flask import request
@@ -64,19 +64,13 @@ def register():
 @login_required
 def view_all():
     form = PostForm()
-
-    if form.validate_on_submit():
-        new_post = Post(title=form.title.data, content=form.content.data, author=current_user)
-        db.session.add(new_post)
-        db.session.commit()
-        flash('Your post has been created!', 'success')
-        return redirect(url_for('main.view_all'))
-
-    sort = request.args.get('sort', 'date')  # Default sort by date
-
+    sort = request.args.get('sort', 'date')
     if sort == 'likes':
-        posts = Post.query.outerjoin(Post.likers).group_by(Post.id) \
-            .order_by(func.count(Post.likers).desc(), Post.date_posted.desc()).limit(10).all()
+        posts = Post.query \
+            .outerjoin(likes, Post.id == likes.c.post_id) \
+            .group_by(Post.id) \
+            .order_by(db.func.count(likes.c.post_id).desc(), Post.date_posted.desc()) \
+            .limit(10).all()
     else:  # Default sort by date
         posts = Post.query.order_by(Post.date_posted.desc()).limit(10).all()
 
@@ -88,21 +82,26 @@ def view_all():
     return render_template('dashboard.html', template='dashboard', posts=posts, sort=sort, form=form, liked_post_ids=liked_post_ids)
 
 
+@main.route('/add_post', methods=['POST'])
+@login_required
+def add_post():
+    form = PostForm()
+    new_post = Post(title=form.title.data, content=form.content.data, author=current_user)
+    db.session.add(new_post)
+    db.session.commit()
+    flash('Your post has been created!', 'success')
+    return redirect(url_for('main.view_all'))
+
+
 @main.route('/post/<int:post_id>', methods=['GET', 'POST'])
 @login_required
 def view_post(post_id):
     post = Post.query.get_or_404(post_id)
     comments = Comment.query.filter_by(post_id=post.id).all()
-    form = CommentForm()
+    comment_form = CommentForm()
+    edit_post_form = EditPostForm()
 
-    if form.validate_on_submit():
-        comment = Comment(content=form.content.data, post_id=post.id, author=current_user)
-        db.session.add(comment)
-        db.session.commit()
-        flash('Your comment has been posted.', 'success')
-        return redirect(url_for('main.view_post', post_id=post.id))
-
-    return render_template('view_post.html', template='view_post', post=post, comments=comments, form=form)
+    return render_template('view_post.html', template='view_post', post=post, comments=comments, comment_form=comment_form, edit_post_form=edit_post_form)
 
 
 @main.route('/like_post/<int:post_id>', methods=['POST'])
@@ -117,6 +116,22 @@ def like_post(post_id):
         post.likers.append(current_user)
         db.session.commit()
         return jsonify({'result': 'liked', 'likes_count': len(post.likers)})
+
+
+@main.route('/add_comment/<int:post_id>', methods=['POST'])
+@login_required
+def add_comment(post_id):
+    post = Post.query.get_or_404(post_id)
+    comment_form = CommentForm()
+
+    if comment_form.validate_on_submit():
+        comment = Comment(content=comment_form.content.data, post_id=post.id, author=current_user)
+        db.session.add(comment)
+        db.session.commit()
+    else:
+        flash('Error adding comment.', 'error')
+
+    return redirect(url_for('main.view_post', post_id=post.id))
 
 
 @main.route('/delete_comment/<int:comment_id>', methods=['DELETE'])
@@ -146,3 +161,34 @@ def edit_comment(comment_id):
     comment.content = data['content']
     db.session.commit()
     return jsonify({'message': 'Comment updated'})
+
+
+@main.route('/update_post/<int:post_id>', methods=['POST'])
+@login_required
+def update_post(post_id):
+    post = Post.query.get_or_404(post_id)
+
+    # Check if the current user is authorized to edit the post
+    if current_user != post.author and not current_user.is_admin:
+        return jsonify({'message': 'Unauthorized'}), 403
+
+    post.title = request.form.get('title')
+    post.content = request.form.get('content')
+    db.session.commit()
+    flash('Post updated', 'success')
+    return redirect(url_for('main.view_all'))
+
+
+@main.route('/delete_post/<int:post_id>', methods=['DELETE'])
+@login_required
+def delete_post(post_id):
+    post = Post.query.get_or_404(post_id)
+
+    # Check if the current user is authorized to edit the post
+    if current_user != post.author:
+        return jsonify({'message': 'Unauthorized'}), 403
+
+    db.session.delete(post)
+    db.session.commit()
+    flash('Post deleted', 'success')
+    return jsonify({'message': 'Post deleted'})
