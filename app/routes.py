@@ -4,8 +4,14 @@ from flask_login import login_user, login_required, logout_user, current_user
 from app import db, bcrypt
 from app.forms import LoginForm, RegisterForm, PostForm, CommentForm, EditPostForm
 from app.models import User, Post, Comment, likes
+from app.util import get_posts
 
 main = Blueprint('main', __name__)
+
+"""
+This module contains all the endpoints of the application. Most of these routes
+serve both database managing tasks as well as rendering HTML templates.
+"""
 
 
 @main.route('/')
@@ -15,6 +21,7 @@ def home():
 
 @main.route('/login', methods=['GET', 'POST'])
 def login():
+    # Using the WTForm for login
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
@@ -36,6 +43,7 @@ def logout():
 
 @main.route('/register', methods=['GET', 'POST'])
 def register():
+    # Using the WTForm for registering
     form = RegisterForm()
     if form.validate_on_submit():
         existing_user = User.query.filter_by(email=form.email.data).first()
@@ -43,7 +51,10 @@ def register():
             flash('Email already registered. Please log in or use a different email.', 'warning')
             return redirect(url_for('main.register'))
 
+        # Hashing the password with bcrypt
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+
+        # Adding the new user to the database
         new_user = User(
             email=form.email.data,
             password=hashed_password,
@@ -58,39 +69,42 @@ def register():
     return render_template('register.html', template='register', form=form)
 
 
+# This is the "view_all" function, but I named the endpoint "Dashboard".
 @main.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def view_all():
+    # Initiating the WTForm for posts
     form = PostForm()
+
+    # Getting the top 10 posts by current sorting option
     sort = request.args.get('sort', 'date')
-    if sort == 'likes':
-        posts = Post.query \
-            .outerjoin(likes, Post.id == likes.c.post_id) \
-            .group_by(Post.id) \
-            .order_by(db.func.count(likes.c.post_id).desc(), Post.date_posted.desc()) \
-            .limit(10).all()
-    else:  # Default sort by date
-        posts = Post.query.order_by(Post.date_posted.desc()).limit(10).all()
+    posts = get_posts(sort, 10)
 
     # Check which posts the current user has liked
     liked_post_ids = set()
     if current_user.is_authenticated:
         liked_post_ids = {post.id for post in current_user.liked_posts}
 
-    return render_template('dashboard.html', template='dashboard', posts=posts, sort=sort, form=form, liked_post_ids=liked_post_ids)
+    return render_template('dashboard.html', template='dashboard', posts=posts, sort=sort, form=form,
+                           liked_post_ids=liked_post_ids)
 
 
+# Endpoint for creating new posts
 @main.route('/add_post', methods=['POST'])
 @login_required
 def add_post():
     form = PostForm()
+
+    # Create a new post using data from the WTForm
     new_post = Post(title=form.title.data, content=form.content.data, author=current_user)
     db.session.add(new_post)
     db.session.commit()
+
     flash('Your post has been created!', 'success')
     return redirect(url_for('main.view_all'))
 
 
+# View function for displaying the view_post page for any given post
 @main.route('/post/<int:post_id>', methods=['GET', 'POST'])
 @login_required
 def view_post(post_id):
@@ -104,9 +118,11 @@ def view_post(post_id):
     if current_user.is_authenticated:
         liked_post_ids = {post.id for post in current_user.liked_posts}
 
-    return render_template('view_post.html', template='view_post', post=post, comments=comments, comment_form=comment_form, edit_post_form=edit_post_form, liked_post_ids=liked_post_ids)
+    return render_template('view_post.html', template='view_post', post=post, comments=comments,
+                           comment_form=comment_form, edit_post_form=edit_post_form, liked_post_ids=liked_post_ids)
 
 
+# Endpoint for liking any post
 @main.route('/like_post/<int:post_id>', methods=['POST'])
 @login_required
 def like_post(post_id):
@@ -121,6 +137,7 @@ def like_post(post_id):
         return jsonify({'result': 'liked', 'likes_count': len(post.likers)})
 
 
+# Endpoint for adding comments to a given post
 @main.route('/add_comment/<int:post_id>', methods=['POST'])
 @login_required
 def add_comment(post_id):
@@ -137,6 +154,7 @@ def add_comment(post_id):
     return redirect(url_for('main.view_post', post_id=post.id))
 
 
+# Deletes a given comment if its author is the current user
 @main.route('/delete_comment/<int:comment_id>', methods=['DELETE'])
 @login_required
 def delete_comment(comment_id):

@@ -3,6 +3,11 @@ from wtforms import StringField, PasswordField, SubmitField, TextAreaField, Hidd
 from wtforms.validators import Length, InputRequired, ValidationError, DataRequired
 from app.models import User
 
+'''
+This module contains the WTForms in the application, which help prevent CSRF attacks 
+in places where users can submit data to the server.
+'''
+
 
 class RegisterForm(FlaskForm):
     first_name = StringField(validators=[InputRequired(), Length(
