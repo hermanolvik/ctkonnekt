@@ -2,10 +2,19 @@
     --primary-color: #eef0f3;
     --secondary-color: #646464;
     --extra-color: #f8f8f8;
-    --text-color-dark: #222;
+    --text-color-dark: #252525;
+    --text-color-faded: #444;
     --text-color-bright: white;
     --like-heart-color: #e74c3c;
     --alert-red-color: #da4637;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-color-dark);
+}
+
+p {
+    color: var(--text-color-faded);
 }
 
 .alert {

@@ -20,7 +20,7 @@ def create_sample_users():
 
 
 def create_sample_posts(users):
-    sample_titles = ["Studietips för tentaperioden", "Campusaktiviteter denna vecka", "Exjobbsmöjligheter inom AI", "Vet du vart hajen lärde sig att simma?"]
+    sample_titles = ["Studietips för tentaperioden", "Campusaktiviteter denna vecka", "Exjobbsmöjligheter inom AI", "Vet du var hajen lärde sig att simma?"]
     sample_contents = [
         "Hej allihopa! Har ni några bra studietips för kommande tentaperioden?",
         "Vilka aktiviteter händer på campus denna vecka? Någon som vill hänga med?",
