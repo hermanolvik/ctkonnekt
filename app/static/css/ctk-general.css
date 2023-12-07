@@ -173,6 +173,10 @@ fallback-bg {
     color: var(--like-heart-color)
 }
 
+.comment-info {
+    color: var(--text-color-dark);
+}
+
 .c-small-btn {
     padding: 5px 10px;
     margin: 5px;

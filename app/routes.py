@@ -4,13 +4,13 @@ from flask_login import login_user, login_required, logout_user, current_user
 from app import db, bcrypt
 from app.forms import LoginForm, RegisterForm, PostForm, CommentForm, EditPostForm
 from app.models import User, Post, Comment, likes
-from app.util import get_posts
 
 main = Blueprint('main', __name__)
 
 """
-This module contains all the endpoints of the application. Most of these routes
-serve both database managing tasks as well as rendering HTML templates.
+This module, routes.py, defines all user-facing URL endpoints for the Flask web application. 
+The routes are organized by functionality. Key Flask extensions used include Flask-Login for 
+session management, WTForms for form processing, and Bcrypt for password hashing.
 """
 
 
@@ -72,6 +72,24 @@ def register():
     return render_template('register.html', template='register', form=form)
 
 
+# Helper function to query posts by sorting option
+def sort_post(sort, quantity):
+    """
+    :param sort: 'likes', otherwise sorting by date.
+    :param quantity: the number of posts to be returned.
+    :return: a list of post objects.
+    """
+    if sort == 'likes':
+        posts = Post.query \
+            .outerjoin(likes, Post.id == likes.c.post_id) \
+            .group_by(Post.id) \
+            .order_by(db.func.count(likes.c.post_id).desc(), Post.date_posted.desc()) \
+            .limit(quantity).all()
+    else:  # Default sort by date
+        posts = Post.query.order_by(Post.date_posted.desc()).limit(quantity).all()
+    return posts
+
+
 # This is the "view_all" function, but I named the endpoint "Dashboard".
 @main.route('/dashboard', methods=['GET', 'POST'])
 @login_required
@@ -81,7 +99,7 @@ def view_all():
 
     # Getting the top 10 posts by current sorting option
     sort = request.args.get('sort', 'date')
-    posts = get_posts(sort, 10)
+    posts = sort_post(sort, 10)
 
     # Check which posts the current user has liked
     liked_post_ids = set()
@@ -125,7 +143,7 @@ def view_post(post_id):
                            comment_form=comment_form, edit_post_form=edit_post_form, liked_post_ids=liked_post_ids)
 
 
-# Endpoint for liking any post
+# Endpoint for liking posts
 @main.route('/like_post/<int:post_id>', methods=['POST'])
 @login_required
 def like_post(post_id):
@@ -172,6 +190,7 @@ def delete_comment(comment_id):
     return jsonify({'message': 'Comment deleted'})
 
 
+# Endpoint for editing a comment
 @main.route('/edit_comment/<int:comment_id>', methods=['POST'])
 @login_required
 def edit_comment(comment_id):
@@ -187,6 +206,7 @@ def edit_comment(comment_id):
     return jsonify({'message': 'Comment updated'})
 
 
+# Endpoint for updating a post
 @main.route('/update_post/<int:post_id>', methods=['POST'])
 @login_required
 def update_post(post_id):

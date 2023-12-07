@@ -1,5 +1,5 @@
 from app import create_app, db
-from generate_sample_data import generate_data
+from app.util.generate_sample_data import generate_data
 
 app = create_app()
 

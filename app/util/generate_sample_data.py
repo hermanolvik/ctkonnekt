@@ -3,6 +3,11 @@ from app.models import User, Post, Comment
 from datetime import datetime, timedelta
 import random
 
+"""
+This utility module contains logic for generating some database sample data for testing purposes.
+"""
+
+
 # Initialize Bcrypt for user creation
 bcrypt = Bcrypt()
 
