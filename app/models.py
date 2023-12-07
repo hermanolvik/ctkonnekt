@@ -8,6 +8,13 @@ SQLAlchemy, which provides object-relational mapping for Flask.
 """
 
 
+# An association table to accommodate 'likes'
+likes = db.Table('likes',
+                 db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+                 db.Column('post_id', db.Integer, db.ForeignKey('post.id'), primary_key=True)
+                 )
+
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), nullable=False, unique=True)
@@ -34,13 +41,6 @@ class Post(db.Model):
     # String representation for debug purposes
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted}')"
-
-
-# An association table to accommodate 'likes'
-likes = db.Table('likes',
-                 db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
-                 db.Column('post_id', db.Integer, db.ForeignKey('post.id'), primary_key=True)
-                 )
 
 
 class Comment(db.Model):

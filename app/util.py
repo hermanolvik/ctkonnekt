@@ -1,6 +1,10 @@
 from app import db
 from app.models import Post, likes
 
+"""
+This module provides general utility functions (so far there is only one of them).
+"""
+
 
 # Query the top posts by sorting option
 def get_posts(sort, quantity):
@@ -18,4 +22,3 @@ def get_posts(sort, quantity):
     else:  # Default sort by date
         posts = Post.query.order_by(Post.date_posted.desc()).limit(quantity).all()
     return posts
-

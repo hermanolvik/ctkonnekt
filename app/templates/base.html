@@ -13,7 +13,7 @@
   <!-- CTK general CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/ctk-general.css') }}">
 
-  <!-- Page CSS -->
+  <!-- Page CSS link based on 'template' variable -->
   {% if template %}
   <link rel="stylesheet" href="{{ url_for('static', filename=template + '/' + template + '.css') }}">
   {% endif %}
@@ -45,14 +45,14 @@
       {% endif %}
       {% endwith %}
 
-      <!-- Page Content -->
+      <!-- Dynamic Page Content -->
       {% block content %}{% endblock %}
 
     </div>
 
   </div>
 
-  <!-- Page script -->
+  <!-- Page script link based on 'template' variable -->
   {% if template %}
   <script src="{{ url_for('static', filename=template + '/' + template + '.js') }}"></script>
   {% endif %}

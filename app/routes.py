@@ -19,6 +19,7 @@ def home():
     return render_template('home.html', template='home')
 
 
+# Logs in a user based on data extracted from a login WTForm
 @main.route('/login', methods=['GET', 'POST'])
 def login():
     # Using the WTForm for login
@@ -27,6 +28,8 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user:
             if bcrypt.check_password_hash(user.password, form.password.data):
+
+                # Log in the user
                 login_user(user)
                 return redirect(url_for('main.view_all'))
             else:
@@ -190,7 +193,7 @@ def update_post(post_id):
     post = Post.query.get_or_404(post_id)
 
     # Check if the current user is authorized to edit the post
-    if current_user != post.author and not current_user.is_admin:
+    if current_user != post.author:
         return jsonify({'message': 'Unauthorized'}), 403
 
     post.title = request.form.get('title')
