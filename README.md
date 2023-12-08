@@ -12,13 +12,6 @@ ctkonnekt is a simple forum-style web application developed using Python Flask. 
 - **Jinja2:** Templating engine for rendering HTML.
 - **Bootstrap 5 & Font Awesome:** For responsive front-end design and icons.
 
-## The week-long project time frame
-given the one-week deadline, the development of ctkonnekt was guided by the need for speed and reliability. Leveraging my experience from previous hobby projects, I selected a familiar technology stack that guaranteed a good balance of efficiency and quality. While I am exploring more advanced technologies like React for future projects, the tight deadline had me choose a more familiar approach. Throughout the development, I utilized various online resources, including Google and ChatGPT, for development support and problem-solving.
-
-### Time spent on the project
-
-backend development: 10 hrs, frontend development: 10 hrs, documentation and everything else: 8 hrs
-
 ## Running the application
 To get ctkonnekt up and running, follow these steps:
 
@@ -63,3 +56,10 @@ Time stamps:
 0:42 - add comment [add_comment<post_id>]
 
 0:46 - edit comment [edit_comment<comment_id>]
+
+## The week-long project time frame
+given the one-week deadline, the development of ctkonnekt was guided by the need for speed and reliability. Leveraging my experience from previous hobby projects, I selected a familiar technology stack that guaranteed a good balance of efficiency and quality. While I am exploring more advanced technologies like React for future projects, the tight deadline had me choose a more familiar approach. Throughout the development, I utilized various online resources, including Google and ChatGPT, for development support and problem-solving.
+
+### Time spent on the project
+
+backend development: 10 hrs, frontend development: 10 hrs, documentation and everything else: 8 hrs
